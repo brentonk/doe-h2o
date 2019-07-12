@@ -1,0 +1,7 @@
+# Junk files
+.dropbox
+
+# Subdirectories
+/data/
+/logs/
+/results/
