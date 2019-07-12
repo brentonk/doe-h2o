@@ -130,6 +130,10 @@ data_train <- data_train %>%
     left_join(data_nmc_b, by = c("ccode_b", "year")) %>%
     assert(not_na, dispnum3, year, outcome, ccode_a, ccode_b)
 
+## Calculate capability ratio (side a's share of total dyadic capabilities)
+data_train <- data_train %>%
+    mutate(capratio_a = cinc_a / (cinc_a + cinc_b))
+
 ## Display missingness in each variable for training data
 cat("\nProportion missing in each variable in training data:\n")
 data_train %>%
