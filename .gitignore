@@ -1,5 +1,6 @@
 # Junk files
 .dropbox
+.Rhistory
 
 # Subdirectories
 /data/

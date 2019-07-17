@@ -37,6 +37,11 @@ data_midb <- raw_midb %>%
     filter(dispnum3 != 4455) %>%
     assert(not_na, dispnum3, ccode, sidea)
 
+
+## -----------------------------------------------------------------------------
+## National Material Capabilities for each directed dyad
+## -----------------------------------------------------------------------------
+
 ## Display missingness in each NMC component variable
 cat("\nProportion missing for each NMC component in full NMC data:\n")
 data_nmc %>%
@@ -70,6 +75,33 @@ data_nmc %>%
     with(., cor(cinc, nmc_sum)) %>%
     sprintf("%.8f", .) %>%
     print()
+
+## Create list of directed dyads each year
+data_dir_dyad <- data_nmc %>%
+    group_by(year) %>%
+    nest() %>%
+    mutate(data = map(data, ~ crossing(ccode_a = .$ccode, ccode_b = .$ccode))) %>%
+    unnest() %>%
+    filter(ccode_a != ccode_b) %>%
+    arrange(year, ccode_a, ccode_b)
+
+## Merge each side's capability components into directed dyad data
+data_nmc_a <- data_nmc_b <- data_nmc
+names(data_nmc_a) <- paste0(names(data_nmc_a), "_a")
+names(data_nmc_b) <- paste0(names(data_nmc_b), "_b")
+data_dir_dyad <- data_dir_dyad %>%
+    left_join(data_nmc_a, by = c("year" = "year_a", "ccode_a" = "ccode_a")) %>%
+    left_join(data_nmc_b, by = c("year" = "year_b", "ccode_b" = "ccode_b")) %>%
+    assert(not_na, year, ccode_a, ccode_b, cinc_a, cinc_b)
+
+## Calculate side a's share of dyadic capabilities
+data_dir_dyad <- data_dir_dyad %>%
+    mutate(capratio_a = cinc_a / (cinc_a + cinc_b))
+
+
+## -----------------------------------------------------------------------------
+## Militarized Interstate Disputes used for model training
+## -----------------------------------------------------------------------------
 
 ## Reduce to MIDs where (a) there is just one state on each side and (b) the
 ## dispute ends in victory, yield by one side, or stalemate
@@ -118,21 +150,12 @@ data_train <- data_mida %>%
     assert(not_na, everything())
 
 ## Merge each side's material capabilities into training data
-data_nmc_a <- data_nmc_b <- data_nmc
-names(data_nmc_a) <- if_else(names(data_nmc_a) == "year",
-                             names(data_nmc_a),
-                             paste0(names(data_nmc_a), "_a"))
-names(data_nmc_b) <- if_else(names(data_nmc_b) == "year",
-                             names(data_nmc_b),
-                             paste0(names(data_nmc_b), "_b"))
 data_train <- data_train %>%
-    left_join(data_nmc_a, by = c("ccode_a", "year")) %>%
-    left_join(data_nmc_b, by = c("ccode_b", "year")) %>%
-    assert(not_na, dispnum3, year, outcome, ccode_a, ccode_b)
+    left_join(data_dir_dyad, by = c("year", "ccode_a", "ccode_b"))
 
-## Calculate capability ratio (side a's share of total dyadic capabilities)
+## Remove variables not used in training
 data_train <- data_train %>%
-    mutate(capratio_a = cinc_a / (cinc_a + cinc_b))
+    select(-dispnum3, -ccode_a, -ccode_b)
 
 ## Display missingness in each variable for training data
 cat("\nProportion missing in each variable in training data:\n")
@@ -148,4 +171,5 @@ if (!dir.exists("results")) {
     dir.create("results")
     cat("\nCreated subdirectory 'results'\n")
 }
-write_csv(data_train, path = "results/clean-data.csv")
+write_csv(data_dir_dyad, path = "results/data-dir-dyad.csv")
+write_csv(data_train, path = "results/data-train.csv")
