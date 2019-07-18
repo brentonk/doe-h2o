@@ -42,7 +42,7 @@ if (!all(file.exists(mida_file, midb_file))) {
 }
 
 ## DOE 1.0
-doe_file <- "data/doe-dir-dyad.csv"
+doe_file <- "data/doe-dir-dyad-1.0.csv"
 if (!file.exists(doe_file)) {
     download.file(url = "https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/FPYKTP/QBDDN6&format=original",
                   destfile = doe_file)
