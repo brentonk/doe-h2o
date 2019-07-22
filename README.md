@@ -19,7 +19,7 @@ This document is the codebook and reference guide for the Dispute Outcome Expect
 
 > Robert J. Carroll and Brenton Kenkel.  2019.  "Prediction, Proxies, and Power."  *American Journal of Political Science*.  <https://doi.org/10.1111/ajps.12442>.
 
-You can download the current version of the DOE data from the DOE project Dataverse at **url goes here**.  The replication code for the current version is available on GitHub at <https://github.com/brentonk/doe-h2o>.
+You can download the current version of the DOE data from the DOE project Dataverse at <https://dataverse.harvard.edu/dataverse/doe-scores>.  The replication code for the current version is available on GitHub at <https://github.com/brentonk/doe-h2o>.
 
 The replication code and data used in the original *AJPS* article are available on Dataverse at <https://doi.org/10.7910/DVN/FPYKTPP>, though we recommend using the most recent version of the DOE data for any new empirical analysis.
 
