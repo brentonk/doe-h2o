@@ -40,6 +40,12 @@ results/data-dir-dyad.csv results/data-train.csv : $(clean_data_r) data/NMC_5_0.
 data/NMC_5_0.csv data/gml-mida-2.1.csv data/gml-midb-2.1.csv data/doe-dir-dyad-1.0.csv : | $(download_r)
 	$(call R, $(download_r))
 
+README.pdf : README.md doe.bib
+	pandoc --natbib --standalone --toc README.md -o README.tex
+	latexmk -pdf -bibtex README.tex
+	latexmk -c README.tex
+	rm README.tex
+
 .PHONY : extras
 extras :
 	$(call R, $(compare_to_v1_r))

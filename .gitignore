@@ -2,6 +2,10 @@
 .dropbox
 .Rhistory
 
+# LaTeX output
+*.bbl
+README.pdf
+
 # Subdirectories
 /data/
 /logs/
