@@ -12,9 +12,9 @@ doe_v1 <- read_csv("data/doe-dir-dyad-1.0.csv") %>%
            VictoryB_v1 = VictoryB) %>%
     assert(not_na, everything())
 doe_v2 <- read_csv("results/doe-dir-dyad-2.0.csv") %>%
-    rename(VictoryA_v2 = VictoryA,
-           Stalemate_v2 = Stalemate,
-           VictoryB_v2 = VictoryB) %>%
+    rename(VictoryA_v2 = pr_win_a,
+           Stalemate_v2 = pr_stalemate,
+           VictoryB_v2 = pr_win_b) %>%
     assert(not_na, everything())
 
 
