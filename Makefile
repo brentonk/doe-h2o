@@ -12,6 +12,8 @@ download_r = 0-download.r
 clean_data_r = 1-clean-data.r
 train_r = 2-train.r
 assemble_r = 3-assemble.r
+compare_to_v1_r = 4-compare-to-v1.r
+prl_r = 5-prl.r
 
 
 all : results/doe-dir-dyad-2.0.csv results/doe-dyad-2.0.csv
@@ -37,6 +39,11 @@ results/data-dir-dyad.csv results/data-train.csv : $(clean_data_r) data/NMC_5_0.
 
 data/NMC_5_0.csv data/gml-mida-2.1.csv data/gml-midb-2.1.csv data/doe-dir-dyad-1.0.csv : | $(download_r)
 	$(call R, $(download_r))
+
+.PHONY : extras
+extras :
+	$(call R, $(compare_to_v1_r))
+	$(call R, $(prl_r))
 
 .PHONY : clean
 clean :
