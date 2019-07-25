@@ -15,9 +15,9 @@ numbersections: true
 
 # Introduction
 
-This document is the codebook and reference guide for the Dispute Outcome Expectations, or DOE, dataset.  If you use the DOE data, please cite the following article:^[Currently published online.  Volume, issue, and pages not available as of 2019-07-22.]
+This document is the codebook and reference guide for the Dispute Outcome Expectations, or DOE, dataset.  If you use the DOE data, please cite the following article:
 
-> Robert J. Carroll and Brenton Kenkel.  2019.  "Prediction, Proxies, and Power."  *American Journal of Political Science*.  <https://doi.org/10.1111/ajps.12442>.
+> Robert J. Carroll and Brenton Kenkel.  2019.  "Prediction, Proxies, and Power."  *American Journal of Political Science* 63(3): 577--593.  <https://doi.org/10.1111/ajps.12442>.
 
 You can download the current version of the DOE data from the DOE project Dataverse at <https://dataverse.harvard.edu/dataverse/doe-scores>.  The replication code for the current version is available on GitHub at <https://github.com/brentonk/doe-h2o>.
 
